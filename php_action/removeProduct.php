@@ -23,4 +23,4 @@ if($productId) {
 
  echo json_encode($valid);
  
-} // /if $_POST
+} // /if $_POSTz

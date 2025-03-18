@@ -4,14 +4,15 @@
 
 require_once 'core.php';
 
-$sql = "SELECT product.product_id, product.product_name, product.product_image, product.brand_id,
- 		product.categories_id, product.quantity, product.rate, product.active, product.status, 
+$sql = "SELECT product.product_id, product.product_name, product.part_number, product.product_image, product.brand_id,
+ 		product.categories_id, product.quantity, product.price, product.active, product.status, 
  		brands.brand_name, categories.categories_name FROM product 
 		INNER JOIN brands ON product.brand_id = brands.brand_id 
 		INNER JOIN categories ON product.categories_id = categories.categories_id  
 		WHERE product.status = 1 AND product.quantity>0";
 
 $result = $connect->query($sql);
+
 
 $output = array('data' => array());
 
@@ -20,10 +21,12 @@ if($result->num_rows > 0) {
  // $row = $result->fetch_array();
  $active = ""; 
 
+
+
  while($row = $result->fetch_array()) {
  	$productId = $row[0];
  	// active 
- 	if($row[7] == 1) {
+ 	if($row[8] == 1) {
  		// activate member
  		$active = "<label class='label label-success'>Available</label>";
  	} else {
@@ -31,7 +34,7 @@ if($result->num_rows > 0) {
  		$active = "<label class='label label-danger'>Not Available</label>";
  	} // /else
 
- 	$button = '<!-- Single button -->
+ 	$button = '<!-- Single button or Action Button -->
 	<div class="btn-group">
 	  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	    Action <span class="caret"></span>
@@ -42,6 +45,7 @@ if($result->num_rows > 0) {
 	  </ul>
 	</div>';
 
+
 	// $brandId = $row[3];
 	// $brandSql = "SELECT * FROM brands WHERE brand_id = $brandId";
 	// $brandData = $connect->query($sql);
@@ -50,10 +54,10 @@ if($result->num_rows > 0) {
 	// 	$brand = $row['brand_name'];
 	// }
 
-	$brand = $row[9];
-	$category = $row[10];
+	$brand = $row[10];
+	$category = $row[11];
 
-	$imageUrl = substr($row[2], 3);
+	$imageUrl = substr($row[3], 3);
 	$productImage = "<img class='img-round' src='".$imageUrl."' style='height:30px; width:50px;'  />";
 
  	$output['data'][] = array( 		
@@ -61,10 +65,10 @@ if($result->num_rows > 0) {
  		$productImage,
  		// product name
  		$row[1], 
- 		// rate
- 		$row[6],
+ 		// price
+ 		$row[7],
  		// quantity 
- 		$row[5], 		 	
+ 		$row[6], 		 	
  		// brand
  		$brand,
  		// category 		
@@ -81,3 +85,6 @@ if($result->num_rows > 0) {
 $connect->close();
 
 echo json_encode($output);
+
+?>
+
