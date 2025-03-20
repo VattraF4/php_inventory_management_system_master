@@ -107,7 +107,7 @@ CREATE TABLE `order_item`
 # Drop TABLE `product`;
 CREATE TABLE `product`
 (
-    `product_id`    int(11)      NOT NULL,
+    `product_id`    int(11)      NOT NULL PRIMARY KEY AUTO_INCREMENT UNIQUE,
     `product_name`  varchar(255) NOT NULL,
     `part_number`   varchar(255) NOT NULL UNIQUE,
     `product_image` text         NOT NULL,
